@@ -12,7 +12,7 @@ type VideoStoreSuite struct {
 }
 
 func (this *VideoStoreSuite) SetupTest() {
-	this.customer = Customer{Name: "Fred"}
+	this.customer = Customer{Name: "Costumer Name"}
 }
 
 func (this *VideoStoreSuite) TestSingleNewReleaseStatement() {
@@ -48,7 +48,7 @@ func (this *VideoStoreSuite) TestOutputFormat() {
 	this.customer.AddRental(Rental{Movie: Movie{Title: "Eraserhead", PriceCode: PC_REGULAR}, DaysRent: 3})
 
 	this.Equal(
-		"Rental Record for Fred\n"+
+		"Rental Record for Costumer Name\n"+
 			"\tPlan 9 from Outer Space\t2.0\n"+
 			"\t8 1/2\t2.0\n"+
 			"\tEraserhead\t3.5\n"+
