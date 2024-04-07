@@ -3,8 +3,10 @@ package store
 import "strconv"
 
 type Customer struct {
-	Name       string
-	RentalList []Rental
+	Name        string
+	RentalList  []Rental
+	totalAmount float64
+	points      int
 }
 
 func (this *Customer) AddRental(rental Rental) {
@@ -51,8 +53,18 @@ func (this *Customer) Statement() string {
 
 	}
 
+	this.totalAmount = totalAmount
+	this.points = frequentRenterPoints
 	result += "You owed " + strconv.FormatFloat(totalAmount, 'f', 1, 64) + "\n"
 	result += "You earned " + strconv.Itoa(frequentRenterPoints) + " frequent renter points\n"
 
 	return result
+}
+
+func (this *Customer) GetOwed() float64 {
+	return this.totalAmount
+}
+
+func (this *Customer) GetPoints() int {
+	return this.points
 }
