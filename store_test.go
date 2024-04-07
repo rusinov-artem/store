@@ -63,8 +63,7 @@ func TestVideoStore(t *testing.T) {
 }
 
 func (this *VideoStoreSuite) AssertOwedAndPoints(owed float64, points int) {
-	t := this.T()
-	t.Helper()
+	this.T().Helper()
 	this.customer.Statement()
 	this.InDelta(owed, this.customer.GetOwed(), 0.01)
 	this.Equal(points, this.customer.GetPoints())
