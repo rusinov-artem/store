@@ -1,1 +1,51 @@
+- test piromid. we have it reversed
+- we have real data in tests
+- we have empty_db.yaml in every case
+
+
+Why should we clean test? Test code will rote if we not refactoring it.
+It get harder and harder to understand
+and we get point when no body understand it and it will be deleted.
+Then the production code will rote
+
+
 1 no right scrolling ever
+
+2 no real date in the test! Real date does not explain what is going on
+
+3 Change "fred" and every test broken. It sign of a bad design. If it happend in production code it is obvius
+
+4 Testing through the user interface.
+
+5 What are we testing???? Not obvius
+
+6. What realy belongs to this test
+    the numbers totalAmound and
+
+7. from red to green.
+
+8. Refactor. Remove duplication by extract custom assertion
+
+9. Where to put helper methods? What about to put them bellow test cases?
+
+10. Test format one time
+
+11. Get rid if constructor inside a constructor
+Test data should explain what test are doing
+
+12. When we clean the code we have a goal to go to. And also we have a progmatism
+
+TDD. helps our code to be clean.
+It reduces amount of bugs
+It gives us a curage to make changes. Even experimental
+
+=========================================================
+
+extract till you drop.
+How can you be sure function doing only one thing
+
+method belongs to different class. But it takes it by argument
+
+
+switch type of movies!
+
