@@ -16,36 +16,36 @@ func (this *VideoStoreSuite) SetupTest() {
 }
 
 func (this *VideoStoreSuite) TestSingleNewReleaseStatement() {
-	this.customer.AddRental(Rental{Movie: Movie{Title: "The Cell", PriceCode: PC_NEW_RELEASE}, DaysRent: 3})
+	this.customer.AddRental(Rental{Movie: NewNewReleaseMovie("The Cell"), DaysRent: 3})
 
 	this.AssertOwedAndPoints(9.0, 2)
 }
 
 func (this *VideoStoreSuite) TestDualNewReleaseStatement() {
-	this.customer.AddRental(Rental{Movie: Movie{Title: "The Cell", PriceCode: PC_NEW_RELEASE}, DaysRent: 3})
-	this.customer.AddRental(Rental{Movie: Movie{Title: "The Tigger Movie", PriceCode: PC_NEW_RELEASE}, DaysRent: 3})
+	this.customer.AddRental(Rental{Movie: NewNewReleaseMovie("The Cell"), DaysRent: 3})
+	this.customer.AddRental(Rental{Movie: NewNewReleaseMovie("The Tigger Movie"), DaysRent: 3})
 
 	this.AssertOwedAndPoints(18.0, 4)
 }
 
 func (this *VideoStoreSuite) TestSingleChildrenStatement() {
-	this.customer.AddRental(Rental{Movie: Movie{Title: "The Tigger Movie", PriceCode: PC_CHILDREN}, DaysRent: 3})
+	this.customer.AddRental(Rental{Movie: NewChildrenMovie("The Tigger Movie"), DaysRent: 3})
 
 	this.AssertOwedAndPoints(1.5, 1)
 }
 
 func (this *VideoStoreSuite) TestMultipleRegularStatement() {
-	this.customer.AddRental(Rental{Movie: Movie{Title: "Plan 9 from Outer Space", PriceCode: PC_REGULAR}, DaysRent: 1})
-	this.customer.AddRental(Rental{Movie: Movie{Title: "8 1/2", PriceCode: PC_REGULAR}, DaysRent: 2})
-	this.customer.AddRental(Rental{Movie: Movie{Title: "Eraserhead", PriceCode: PC_REGULAR}, DaysRent: 3})
+	this.customer.AddRental(Rental{Movie: NewRegularMovie("Plan 9 from Outer Space"), DaysRent: 1})
+	this.customer.AddRental(Rental{Movie: NewRegularMovie("8 1/2"), DaysRent: 2})
+	this.customer.AddRental(Rental{Movie: NewRegularMovie("Eraserhead"), DaysRent: 3})
 
 	this.AssertOwedAndPoints(7.5, 3)
 }
 
 func (this *VideoStoreSuite) TestOutputFormat() {
-	this.customer.AddRental(Rental{Movie: Movie{Title: "Plan 9 from Outer Space", PriceCode: PC_REGULAR}, DaysRent: 1})
-	this.customer.AddRental(Rental{Movie: Movie{Title: "8 1/2", PriceCode: PC_REGULAR}, DaysRent: 2})
-	this.customer.AddRental(Rental{Movie: Movie{Title: "Eraserhead", PriceCode: PC_REGULAR}, DaysRent: 3})
+	this.customer.AddRental(Rental{Movie: NewRegularMovie("Plan 9 from Outer Space"), DaysRent: 1})
+	this.customer.AddRental(Rental{Movie: NewRegularMovie("8 1/2"), DaysRent: 2})
+	this.customer.AddRental(Rental{Movie: NewRegularMovie("Eraserhead"), DaysRent: 3})
 
 	this.Equal(
 		"Rental Record for Costumer Name\n"+

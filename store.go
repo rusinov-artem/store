@@ -40,7 +40,7 @@ func (this *Customer) statementDetails() string {
 func (this *Customer) statementDetail(rental Rental) string {
 	return fmt.Sprintf("\t%s\t%s\n",
 		rental.Movie.Title,
-		strconv.FormatFloat(rental.Amount(), 'f', 1, 64),
+		strconv.FormatFloat(rental.DetermineAmount(), 'f', 1, 64),
 	)
 }
 
@@ -64,7 +64,7 @@ func (this *Customer) footer(totalOwed float64, points int) string {
 
 func (this *Customer) calculateTotal() (float64, int) {
 	for i := range this.RentalList {
-		rentalAmount := this.RentalList[i].Amount()
+		rentalAmount := this.RentalList[i].DetermineAmount()
 		earnedPoints := this.RentalList[i].Points()
 
 		this.totalAmount += rentalAmount
