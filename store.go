@@ -1,6 +1,9 @@
 package store
 
-import "strconv"
+import (
+	"fmt"
+	"strconv"
+)
 
 type Customer struct {
 	Name        string
@@ -14,51 +17,35 @@ func (this *Customer) AddRental(rental Rental) {
 }
 
 func (this *Customer) Statement() string {
-	totalAmount := 0.0
-	frequentRenterPoints := 0
-	result := "Rental Record for " + this.Name + "\n"
+	this.clearTotals()
+	statement := this.statementHeader() + this.statementDetails()
+	totalOwd, points := this.calculateTotal()
+	statement += this.footer(totalOwd, points)
+	return statement
+}
 
+func (this *Customer) clearTotals() {
+	this.totalAmount = 0
+	this.points = 0
+}
+
+func (this *Customer) statementDetails() string {
+	details := ""
 	for _, rental := range this.RentalList {
-		thisAmount := 0.0
-
-		switch rental.Movie.PriceCode {
-		case PC_REGULAR:
-			{
-				thisAmount += 2
-				if rental.DaysRent > 2 {
-					thisAmount += (float64(rental.DaysRent) - 2) * 1.5
-				}
-			}
-		case PC_NEW_RELEASE:
-			{
-				thisAmount += float64(rental.DaysRent) * 3
-			}
-		case PC_CHILDREN:
-			{
-				thisAmount += 1.5
-				if rental.DaysRent > 3 {
-					thisAmount += (float64(rental.DaysRent) - 3) * 1.5
-				}
-			}
-		}
-
-		frequentRenterPoints++
-
-		if rental.Movie.PriceCode == PC_NEW_RELEASE && rental.DaysRent > 1 {
-			frequentRenterPoints++
-		}
-
-		result += "\t" + rental.Movie.Title + "\t" + strconv.FormatFloat(thisAmount, 'f', 1, 64) + "\n"
-		totalAmount += thisAmount
-
+		details += this.statementDetail(rental)
 	}
+	return details
+}
 
-	this.totalAmount = totalAmount
-	this.points = frequentRenterPoints
-	result += "You owed " + strconv.FormatFloat(totalAmount, 'f', 1, 64) + "\n"
-	result += "You earned " + strconv.Itoa(frequentRenterPoints) + " frequent renter points\n"
+func (this *Customer) statementDetail(rental Rental) string {
+	return fmt.Sprintf("\t%s\t%s\n",
+		rental.Movie.Title,
+		strconv.FormatFloat(rental.Amount(), 'f', 1, 64),
+	)
+}
 
-	return result
+func (this *Customer) statementHeader() string {
+	return "Rental Record for " + this.Name + "\n"
 }
 
 func (this *Customer) GetOwed() float64 {
@@ -67,4 +54,21 @@ func (this *Customer) GetOwed() float64 {
 
 func (this *Customer) GetPoints() int {
 	return this.points
+}
+
+func (this *Customer) footer(totalOwed float64, points int) string {
+	footer := "You owed " + strconv.FormatFloat(totalOwed, 'f', 1, 64) + "\n"
+	footer += "You earned " + strconv.Itoa(points) + " frequent renter points\n"
+	return footer
+}
+
+func (this *Customer) calculateTotal() (float64, int) {
+	for i := range this.RentalList {
+		rentalAmount := this.RentalList[i].Amount()
+		earnedPoints := this.RentalList[i].Points()
+
+		this.totalAmount += rentalAmount
+		this.points += earnedPoints
+	}
+	return this.totalAmount, this.points
 }
